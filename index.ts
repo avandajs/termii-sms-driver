@@ -1,24 +1,36 @@
-import {SMS,Env} from "@avanda/app"
-import twilio from "twilio"
+import { SMS, Env } from "@avanda/app"
+import {Request} from "@avanda/http"
+interface Msg{
+    to: string,
+    from?: string,
+    body: string
+}
 
-export default class TwilioSmsDriver extends SMS.SmsDriver{
-    async send(msg): Promise<boolean> {
-        let TWILIO_ACCOUNT_SID = Env.get<string>('TWILIO_ACCOUNT_SID')
-        let TWILIO_AUTH_TOKEN = Env.get<string>('TWILIO_AUTH_TOKEN')
+export default class TermiiSmsDriver extends SMS.SmsDriver {
+    async send(msg: Msg): Promise<boolean> {
 
-        let client = twilio(TWILIO_ACCOUNT_SID,TWILIO_AUTH_TOKEN,{
-            lazyLoading: true
+        let TERMII_API_KEY = Env.get<string>('TERMII_API_KEY')
+
+        let request = new Request()
+
+        request.setData({
+            "to": msg.to,
+            "from": msg.from,
+            "sms": msg.body,
+            "type": "plain",
+            "channel": "dnd",
+            "api_key": TERMII_API_KEY,
         })
+
+    
         try {
-            await client.messages.create({
-                from: msg.from,
-                to: msg.to,
-                body: msg.body,
-            })
-            return  true;
-        }catch (e) {
+            let response = await request.post("https://termii.com/api/sms/send")
+            if(response.statusCode > 299) throw new Error(response.data?.message);
+            console.log({response})
+            return true;
+        } catch (e) {
             console.error(e);
-            return  false;
+            return false;
         }
     }
 
