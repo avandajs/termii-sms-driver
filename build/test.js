@@ -7,6 +7,6 @@ const index_1 = __importDefault(require("./index"));
 let t = new index_1.default();
 t.send({
     body: 'hello world',
-    from: 'N-Alert',
+    from: 'fastBeep',
     to: '+2347086967055'
 });

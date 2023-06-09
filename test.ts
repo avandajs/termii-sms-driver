@@ -4,6 +4,6 @@ let t = new TermiiSmsDriver()
 
 t.send({
     body:'hello world',
-    from: 'N-Alert',
+    from: 'fastBeep',
     to:'+2347086967055'
 })

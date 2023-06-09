@@ -1,6 +1,6 @@
 {
   "name": "@avanda/termii-sms-driver",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Avanda twilio sms driver",
   "main": "build/index.js",
   "types": "index.ts",
@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "@avanda/app": "^1.10.1",
-    "@avanda/http": "^0.3.155",
+    "@avanda/http": "^0.3.161",
+    "@avanda/orm": "^0.2.98",
     "express": "^4.18.1"
   },
   "devDependencies": {
